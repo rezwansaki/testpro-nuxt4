@@ -13,7 +13,7 @@ https://alinsworld.com/
 
 ## Used Tools
 
-Nuxt 4 and Tailwind CSS
+Nuxt 4 and Tailwind CSS with DummyJSON (https://dummyjson.com/).
 
 # Nuxt Minimal Starter
 
