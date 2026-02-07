@@ -1,0 +1,4 @@
+<template>
+  <Breadcrumb />
+  <Category />
+</template>
