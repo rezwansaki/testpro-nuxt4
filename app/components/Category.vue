@@ -3,7 +3,7 @@ const { data: categories } = await useFetch(
   "https://dummyjson.com/products/categories",
 );
 
-const limitedCategories = computed(() => categories.value?.slice(0, 4) || []);
+// const limitedCategories = computed(() => categories.value?.slice(0, 4) || []);
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const limitedCategories = computed(() => categories.value?.slice(0, 4) || []);
       <div class="flex flex-wrap -m-4">
         <div
           class="p-4 lg:w-1/4 md:w-1/2"
-          v-for="(category, index) in limitedCategories"
+          v-for="(category, index) in categories"
           :key="category.slug"
         >
           <NuxtLink :to="`/category/${category.slug}`">

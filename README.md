@@ -2,6 +2,8 @@
 
 I have developed a project using Nuxt 4 where I integrated a dummy API for development purposes. Currently, the project focuses on data fetching. In the next phase, I plan to enhance it into an e-commerce–style application by adding features such as an Add to Cart system, also powered by a dummy API.
 
+https://testpro-nuxt4.rezwansaki.workers.dev/
+
 ## Start Date:
 
 07-February-2026
