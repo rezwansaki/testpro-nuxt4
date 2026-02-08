@@ -3,9 +3,12 @@ const { data: categories } = await useFetch(
   "https://dummyjson.com/products/categories",
 );
 
-// const route = useRoute();
-// const slug = route.params.slug;
-// const limitedCategories = computed(() => categories.value?.slice(0, 4) || []);
+const route = useRoute();
+if (route.path === "/") {
+  return categories.value.slice(0, 8);
+}
+
+const limitedCategories = computed(() => categories.value?.slice(0, 4) || []);
 </script>
 
 <template>
