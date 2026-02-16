@@ -1,3 +1,7 @@
+<script setup>
+const user = useState("user");
+</script>
+
 <template>
   <header class="text-gray-600 body-font">
     <div
@@ -22,7 +26,7 @@
           ></path>
         </svg>
         <span class="ml-3 text-xl">
-          <NuxtLink to="/"> Test Project by Nuxt 4 </NuxtLink>
+          Test Project by Nuxt 4
         </span>
       </NuxtLink>
       <nav
@@ -49,6 +53,27 @@
         >
           Contact Us
         </NuxtLink>
+        <NuxtLink
+          v-if="!user"
+          to="/login"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+        >
+          Login
+        </NuxtLink>
+        <NuxtLink
+          v-if="user"
+          :to="`/profile/${user.id}`"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+        >
+          {{ user.firstName }}
+      </NuxtLink>
+       <NuxtLink
+          v-if="user"
+          to="/"
+          class="mr-5 hover:text-gray-900 cursor-pointer"
+        >
+          Logout
+      </NuxtLink>
       </nav>
     </div>
   </header>

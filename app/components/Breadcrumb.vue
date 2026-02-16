@@ -4,7 +4,6 @@ const pathname = url.pathname;
 const removeSlash = pathname.slice(1);
 const categories = removeSlash.split("/");
 const product = ref(null);
-console.log(categories);
 </script>
 
 <template>
