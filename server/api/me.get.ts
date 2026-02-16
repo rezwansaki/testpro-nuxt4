@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Unauthorized",
     });
   }
-  // test
+
   return await $fetch("https://dummyjson.com/auth/me", {
     method: "GET",
     headers: {
