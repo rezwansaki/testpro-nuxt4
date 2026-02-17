@@ -7,7 +7,7 @@ const user = useState("user", () => null);
 // const resp = await $fetch("/api/alin");
 // console.log(resp);
 
-// form submit 
+// form submit
 const formsubmit = async () => {
   const res = await $fetch("/api/login", {
     method: "POST",
@@ -22,7 +22,7 @@ const formsubmit = async () => {
   });
   user.value = res;
 
-  // get profile information after successfully login 
+  // get profile information after successfully login
   const me = await $fetch("/api/me", {
     method: "GET",
     headers: {
@@ -30,7 +30,7 @@ const formsubmit = async () => {
     },
   });
 
-  // to navigate the user profile page  
+  // to navigate the user profile page
   if (user.value) {
     navigateTo(`/profile/${user.value.id}`);
   }
