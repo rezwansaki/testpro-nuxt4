@@ -29,6 +29,7 @@ const formsubmit = async () => {
       Authorization: `Bearer ${user.value.accessToken}`,
     },
   });
+  user.value = me;
 
   // to navigate the user profile page
   if (user.value) {
