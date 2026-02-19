@@ -1,3 +1,10 @@
+<script setup>
+// if user is authenticated
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>
+
 <template>
   <section class="container mx-auto mb-20">
     <div class="flex flex-col md:flex-row items-center gap-12">

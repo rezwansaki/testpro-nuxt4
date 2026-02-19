@@ -1,13 +1,15 @@
 <script setup>
+const token = useCookie("alin_token");
+const exp = token.value.split(".")[1];
+const payload = JSON.parse(atob(exp));
+const currentTime = Math.floor(Date.now() / 1000);
 
-// const { data: dd, pending, error } = await useFetch("/api/masum");
-
-const {data: dd, pending, error } = await useFetch("/api/product/10")
-
+// Check expiration
+if (payload.exp < currentTime) {
+  token.value = null; // remove expired token
+}
 </script>
 
 <template>
-<div v-if="pending">Loading...</div>
-  <div v-else-if="error">Error</div>
-  <pre v-else>{{ dd }}</pre>
+  <p>currentTime</p>
 </template>

@@ -1,29 +1,39 @@
 <script setup>
 const username = ref("emilys");
 const password = ref("emilyspass");
-const error = ref(null);
 
-const login = async () => {
-  try {
-    const res = await $fetch("/api/login", {
-      method: "POST",
-      body: {
-        username: username.value,
-        password: password.value,
-        expiresInMins: 30, //session
-      },
-    });
+const user = useState("user", () => null);
 
-    // Save token in cookie
-    const token = useCookie("alin_token");
-    token.value = res.accessToken;
+// const resp = await $fetch("/api/alin");
+// console.log(resp);
 
-    const u_name = useCookie("u_name");
-    u_name.value = res.firstName;
+// form submit
+const formsubmit = async () => {
+  const res = await $fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value,
+      expiresInMins: 30,
+    }),
+  });
+  user.value = res;
 
-    await navigateTo("/profile");
-  } catch (err) {
-    error.value = "Invalid credentials";
+  // get profile information after successfully login
+  const me = await $fetch("/api/me", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${user.value.accessToken}`,
+    },
+  });
+  user.value = me;
+
+  // to navigate the user profile page
+  if (user.value) {
+    navigateTo(`/profile/${user.value.id}`);
   }
 };
 </script>
@@ -37,7 +47,7 @@ const login = async () => {
           src="https://img.icons8.com/fluent/344/year-of-tiger.png"
         />
       </header>
-      <form @submit.prevent="login">
+      <form @submit.prevent="formsubmit">
         <div>
           <label class="block mb-2 text-indigo-500" for="username"
             >Username</label

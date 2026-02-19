@@ -1,5 +1,14 @@
 <script setup>
-const user = useState("user");
+const token = useCookie("alin_token");
+
+const username = useCookie("u_name");
+
+const logout = () => {
+  token.value = null; // remove expired token
+  username.value = null;
+
+  return navigateTo("/login");
+};
 </script>
 
 <template>
@@ -25,9 +34,7 @@ const user = useState("user");
             d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
           ></path>
         </svg>
-        <span class="ml-3 text-xl">
-          Test Project by Nuxt 4
-        </span>
+        <span class="ml-3 text-xl"> Test Project by Nuxt 4 </span>
       </NuxtLink>
       <nav
         class="md:ml-auto flex flex-wrap items-center text-base justify-center"
@@ -54,26 +61,26 @@ const user = useState("user");
           Contact Us
         </NuxtLink>
         <NuxtLink
-          v-if="!user"
+          v-if="!token"
           to="/login"
           class="mr-5 hover:text-gray-900 cursor-pointer"
         >
           Login
         </NuxtLink>
         <NuxtLink
-          v-if="user"
-          :to="`/profile/${user.id}`"
+          v-if="token"
+          :to="`/profile`"
           class="mr-5 hover:text-gray-900 cursor-pointer"
         >
-          {{ user.firstName }}
-      </NuxtLink>
-       <NuxtLink
-          v-if="user"
-          to="/"
+          {{ username }}
+        </NuxtLink>
+        <button
+          v-if="token"
+          @click="logout"
           class="mr-5 hover:text-gray-900 cursor-pointer"
         >
           Logout
-      </NuxtLink>
+        </button>
       </nav>
     </div>
   </header>
