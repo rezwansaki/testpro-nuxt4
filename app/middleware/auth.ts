@@ -1,24 +1,34 @@
-export default defineNuxtRouteMiddleware(() => {
-  const token = useCookie("alin_token");
+import CryptoJS from "crypto-js";
 
-  if (!token.value) {
-    return navigateTo("/login");
+export default defineNuxtRouteMiddleware((to) => {
+  const secretKey = "alinisawesome";
+  const tokenx = useCookie("alin_token");
+
+  if (!tokenx.value) {
+    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+  }
+
+  let token = "";
+  try {
+    const bytes = CryptoJS.AES.decrypt(tokenx.value, secretKey);
+    token = bytes.toString(CryptoJS.enc.Utf8);
+  } catch {
+    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+  }
+
+  if (!token) {
+    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
   }
 
   try {
-    // Decode JWT payload
-    const payload = JSON.parse(atob(token.value.split(".")[1]));
-
+    const payload = JSON.parse(atob(token.split(".")[1]));
     const currentTime = Math.floor(Date.now() / 1000);
-
-    // Check expiration
     if (payload.exp < currentTime) {
-      token.value = null; // remove expired token
-      return navigateTo("/login");
+      tokenx.value = null;
+      return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
     }
-  } catch (error) {
-    // Invalid token
-    token.value = null;
-    return navigateTo("/login");
+  } catch {
+    tokenx.value = null;
+    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
   }
 });

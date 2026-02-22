@@ -1,15 +1,15 @@
 <script setup>
-const token = useCookie("alin_token");
-const exp = token.value.split(".")[1];
-const payload = JSON.parse(atob(exp));
-const currentTime = Math.floor(Date.now() / 1000);
+import CryptoJS from "crypto-js";
 
-// Check expiration
-if (payload.exp < currentTime) {
-  token.value = null; // remove expired token
-}
+const secretKey = "my-secret";
+const encrypted = CryptoJS.AES.encrypt("hello", secretKey).toString();
+const bytes = CryptoJS.AES.decrypt(encrypted, secretKey);
+const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 </script>
 
 <template>
-  <p>currentTime</p>
+  <p>{{ secretKey }}</p>
+  <p>{{ encrypted }}</p>
+  <p>{{ bytes }}</p>
+  <p>{{ decrypted }}</p>
 </template>

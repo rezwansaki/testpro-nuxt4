@@ -1,11 +1,25 @@
 <script setup>
-const token = useCookie("alin_token");
+import CryptoJS from "crypto-js";
 
-const username = useCookie("u_name");
+const token = useCookie("alin_token");
+const usernamex = useCookie("u_name");
+
+const secretKey = "alinisawesome";
+
+let username = "";
+
+if (usernamex.value) {
+  try {
+    const bytes = CryptoJS.AES.decrypt(usernamex.value, secretKey);
+    username = bytes.toString(CryptoJS.enc.Utf8);
+  } catch (e) {
+    username = "";
+  }
+}
 
 const logout = () => {
   token.value = null; // remove expired token
-  username.value = null;
+  usernamex.value = null;
 
   return navigateTo("/login");
 };
