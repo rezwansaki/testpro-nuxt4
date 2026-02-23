@@ -2,24 +2,27 @@
 import CryptoJS from "crypto-js";
 
 const token = useCookie("alin_token");
-const usernamex = useCookie("u_name");
-
+const usernameCookie = useCookie("u_name");
 const secretKey = "alinisawesome";
 
-let username = "";
+const username = computed(() => {
+  if (!usernameCookie.value) return "";
 
-if (usernamex.value) {
   try {
-    const bytes = CryptoJS.AES.decrypt(usernamex.value, secretKey);
-    username = bytes.toString(CryptoJS.enc.Utf8);
+    return (
+      CryptoJS.AES.decrypt(usernameCookie.value, secretKey).toString(
+        CryptoJS.enc.Utf8,
+      ) || ""
+    );
   } catch (e) {
-    username = "";
+    console.error("Decrypt failed:", e);
+    return "";
   }
-}
+});
 
 const logout = () => {
   token.value = null; // remove expired token
-  usernamex.value = null;
+  usernameCookie.value = null;
 
   return navigateTo("/login");
 };

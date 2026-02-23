@@ -1,4 +1,9 @@
 <script setup>
+// if user is authenticated
+definePageMeta({
+  middleware: ["auth"],
+});
+
 import CryptoJS from "crypto-js";
 
 const secretKey = "alinisawesome";

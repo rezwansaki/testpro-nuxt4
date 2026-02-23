@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const tokenx = useCookie("alin_token");
 
   if (!tokenx.value) {
-    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+    return navigateTo({ path: "/login" });
   }
 
   let token = "";
@@ -13,11 +13,11 @@ export default defineNuxtRouteMiddleware((to) => {
     const bytes = CryptoJS.AES.decrypt(tokenx.value, secretKey);
     token = bytes.toString(CryptoJS.enc.Utf8);
   } catch {
-    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+    return navigateTo({ path: "/login" });
   }
 
   if (!token) {
-    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+    return navigateTo({ path: "/login" });
   }
 
   try {
@@ -25,10 +25,10 @@ export default defineNuxtRouteMiddleware((to) => {
     const currentTime = Math.floor(Date.now() / 1000);
     if (payload.exp < currentTime) {
       tokenx.value = null;
-      return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+      return navigateTo({ path: "/login" });
     }
   } catch {
     tokenx.value = null;
-    return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
+    return navigateTo({ path: "/login" });
   }
 });
