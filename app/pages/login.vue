@@ -1,5 +1,6 @@
 <script setup>
 import CryptoJS from "crypto-js";
+
 const username = ref("emilys");
 const password = ref("emilyspass");
 const secretKey = "alinisawesome";
@@ -17,22 +18,26 @@ const login = async () => {
       },
     });
 
-    // Save token in cookie
+    // Create or Read cookie (if exist then read, otherwise create a new cookie)
     const token = useCookie("alin_token");
 
     const encryptedtoken = CryptoJS.AES.encrypt(
       res.accessToken,
       secretKey,
     ).toString();
+
+    // Save token in cookie
     token.value = encryptedtoken;
 
+    // Create or Read cookie (if exist then read, otherwise create a new cookie)
     const u_name = useCookie("u_name");
-    const user_name = useCookie(res.firstName);
 
     const encryptedname = CryptoJS.AES.encrypt(
       res.firstName,
       secretKey,
     ).toString();
+
+    // Save u_name in cookie
     u_name.value = encryptedname;
 
     await navigateTo("/profile");
